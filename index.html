@@ -200,7 +200,7 @@
     <div id="quiz-screen" class="screen active">
         <h2 id="question-title">السؤال الأول</h2>
         <div class="options-container" id="options-box">
-            </div>
+        </div>
         <button class="next-btn" onclick="handleNextQuestion()">التالي ✨</button>
     </div>
 
@@ -224,7 +224,7 @@
         <div id="game2-canvas-container">
             <div id="shield" class="shield"></div>
             <div id="balloon" class="balloon-heart">💘</div>
-            </div>
+        </div>
         <p style="font-size: 12px; color: #666;">حرك الماوس أو إصبعك داخل المربع لحماية القلب</p>
     </div>
 
@@ -254,7 +254,7 @@
             correct: [0] // أ
         },
         {
-            q: "السؤال الرابع رمز تلفوني المعتمد "اختاري جوابين":",
+            q: "السؤال الرابع رمز تلفوني المعتمد 'اختاري جوابين':",
             options: ["a- mohmed16", "b- hala529", "c-mmhh529"],
             correct: [1, 2], // b + c (متعدد الاختيارات)
             isMultiple: true
@@ -282,13 +282,11 @@
 
     function selectOption(index, btn, isMultiple) {
         if (!isMultiple) {
-            // اختيار مفرد
             const btns = document.querySelectorAll('.option-btn');
             btns.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             selectedOptions = [index];
         } else {
-            // اختيار متعدد (للسؤال الرابع b و c)
             if (selectedOptions.includes(index)) {
                 selectedOptions = selectedOptions.filter(i => i !== index);
                 btn.classList.remove('selected');
@@ -302,7 +300,6 @@
     function handleNextQuestion() {
         const currentQ = quizData[currentQuestionIndex];
         
-        // التحقق من صحة الإجابة
         let isCorrect = false;
         if (currentQ.isMultiple) {
             isCorrect = currentQ.correct.length === selectedOptions.length && 
@@ -316,7 +313,6 @@
             return;
         }
 
-        // الانتقال للسؤال التالي أو اللعبة الأولى
         currentQuestionIndex++;
         if (currentQuestionIndex < quizData.length) {
             loadQuestion();
@@ -381,7 +377,6 @@
                 switchScreen('game1-screen', 'game2-screen');
                 initGame2();
             } else {
-                // نقل القلب لمكان عشوائي
                 t1X = Math.floor(Math.random() * (container1.clientWidth - 30));
                 t1Y = Math.floor(Math.random() * (container1.clientHeight - 30));
                 updatePositions();
@@ -422,7 +417,6 @@
             shield.style.top = sY + 'px';
         });
 
-        // عداد الارتفاع
         game2Interval = setInterval(() => {
             game2Height++;
             document.getElementById('game2-height').innerText = game2Height;
@@ -431,7 +425,6 @@
             }
         }, 300);
 
-        // تم تقليل وقت توليد العقبات من 1000ms إلى 450ms لزيادة الكثافة
         obstacleInterval = setInterval(createObstacle, 450);
     }
 
@@ -445,10 +438,8 @@
         container2.appendChild(obs);
 
         let obsY = 0;
-        // إضافة انحراف جانبي عشوائي لتصعيب اللعبة وتغيير مسار العقبة أثناء السقوط
         let drift = (Math.random() - 0.5) * 2; 
 
-        // تم زيادة سرعة النزول الرأسي من 4 إلى 6
         let obsMove = setInterval(() => {
             obsY += 6; 
             obs.style.top = obsY + 'px';
@@ -458,13 +449,11 @@
                 obs.style.left = currentX + 'px';
             }
 
-            // تصادم مع الحامي (Shield)
             if (obsY + 20 >= sY && obsY <= sY + 10 && parseInt(obs.style.left) + 20 >= sX && parseInt(obs.style.left) <= sX + 50) {
                 clearInterval(obsMove);
                 obs.remove();
             }
 
-            // تصادم مع القلب (الخسارة وإعادة اللعبة)
             if (obsY + 20 >= bY && obsY <= bY + 30 && parseInt(obs.style.left) + 20 >= bX && parseInt(obs.style.left) <= bX + 30) {
                 clearInterval(obsMove);
                 obs.remove();
@@ -472,7 +461,6 @@
                 resetGame2();
             }
 
-            // خروج العقبة من الشاشة
             if (obsY > 400) {
                 clearInterval(obsMove);
                 obs.remove();
@@ -496,14 +484,12 @@
         }
     }
 
-    // --- عرض الرسالة النهائية ---
     function showFinalMessage() {
         const msg = `يعطيكي الف الف الف الف الف عافية يارب 🥺🥺💘💘 وهاي هيك فزتي باللعبة بس بالله عليكي اضحكيلي شوي يلا 🧐🧐🧐 يختشششششي 😂😂😂 ولك هاي الضحكه مش بس بحبها وبموت فيها 💕😂 يلا كتكوته خليكي هيك مبسوطه ولا بدك ازعل منك يعني 🙂 واه ترا بزعل لو تضلي هيك عادي اضحكي ما انتي ضاحكه الي مش لحدا غريب 🌚🌚 وكمان just Ilove you ومش بكيفك 😒 ولك دخخيييييللللللل الي بضحك 😂😂 يختششششييييي 😂😂😂 ايوه هيك بحب اشوف هالغمازات انا 😂💕 واهم اشي تعالي على السناب واحكيلي رأيك بكل صراحه عجبتك ولا لا 🙂 وكمان عندي سؤال زنوخ شوي 🙂 كم بتحبي تحكي معي 🌚🌚🌚 انا اقسم بالله عارف الاجابة 😂😂😂`;
         
         document.getElementById('final-text').innerText = msg;
     }
 
-    // بدء السؤال الأول عند تشغيل الصفحة
     loadQuestion();
 </script>
 
